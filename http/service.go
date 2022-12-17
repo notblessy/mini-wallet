@@ -24,8 +24,9 @@ var (
 
 // HTTPService :nodoc:
 type HTTPService struct {
-	userRepo model.UserRepository
-	db       gorm.DB
+	userRepo   model.UserRepository
+	walletRepo model.WalletRepository
+	db         gorm.DB
 }
 
 // NewHTTPService :nodoc:
@@ -38,6 +39,11 @@ func (h *HTTPService) RegisterUserRepository(u model.UserRepository) {
 	h.userRepo = u
 }
 
+// RegisterWalletRepository :nodoc:
+func (h *HTTPService) RegisterWalletRepository(w model.WalletRepository) {
+	h.walletRepo = w
+}
+
 // Routes :nodoc:
 func (h *HTTPService) Routes(route *echo.Echo) {
 	route.POST("api/v1/init", h.initHandler)
@@ -46,4 +52,7 @@ func (h *HTTPService) Routes(route *echo.Echo) {
 	routes.Use(middleware.Logger())
 	routes.Use(middleware.Recover())
 	routes.Use(middleware.JWTWithConfig(mdw.JWTConfig()))
+
+	route.POST("api/v1/wallet", h.enableWalletHandler)
+	route.GET("api/v1/wallet", h.viewBalanceHandler)
 }

@@ -18,7 +18,7 @@ var (
 
 type JWTClaims struct {
 	jwt.StandardClaims
-	CustomerXid string
+	CustomerXid string `json:"customer_xid"`
 }
 
 func JWTConfig() middleware.JWTConfig {

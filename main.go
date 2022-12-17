@@ -25,9 +25,11 @@ func main() {
 	e.Validator = &utils.CustomValidator{Validator: validator.New()}
 
 	userRepo := repository.NewUserRepository(initDB)
+	walletRepo := repository.NewWalletRepository(initDB)
 
 	httpSvc := http.NewHTTPService()
 	httpSvc.RegisterUserRepository(userRepo)
+	httpSvc.RegisterWalletRepository(walletRepo)
 
 	httpSvc.Routes(e)
 

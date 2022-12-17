@@ -19,3 +19,9 @@ type User struct {
 type UserResponse struct {
 	Token string `json:"token"`
 }
+
+func (u *User) NewResponse(t string) *UserResponse {
+	return &UserResponse{
+		Token: t,
+	}
+}

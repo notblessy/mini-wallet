@@ -62,9 +62,7 @@ func (h *HTTPService) initHandler(c echo.Context) error {
 		})
 	}
 
-	userResp := model.UserResponse{
-		Token: t,
-	}
+	userResp := data.NewResponse(t)
 
 	return c.JSON(http.StatusOK, utils.DefaultResponse{
 		Status: utils.RespStatusSuccess,
