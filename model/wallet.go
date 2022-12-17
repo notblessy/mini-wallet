@@ -1,6 +1,10 @@
 package model
 
-import "time"
+import (
+	"time"
+
+	"gorm.io/gorm"
+)
 
 type WalletStatus int32
 
@@ -20,7 +24,8 @@ var (
 // WalletRepository :nodoc:
 type WalletRepository interface {
 	Create(wallet *Wallet) error
-	FindByID(walletID *string) (*Wallet, error)
+	FindByOwner(walletID *string) (*Wallet, error)
+	Save(wallet *Wallet, tx *gorm.DB) error
 }
 
 type Wallet struct {

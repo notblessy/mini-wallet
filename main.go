@@ -26,10 +26,14 @@ func main() {
 
 	userRepo := repository.NewUserRepository(initDB)
 	walletRepo := repository.NewWalletRepository(initDB)
+	depositRepo := repository.NewDepositRepository(initDB, walletRepo)
+	withdrawalRepo := repository.NewWithdrawalRepository(initDB, walletRepo)
 
 	httpSvc := http.NewHTTPService()
 	httpSvc.RegisterUserRepository(userRepo)
 	httpSvc.RegisterWalletRepository(walletRepo)
+	httpSvc.RegisterDepositRepository(depositRepo)
+	httpSvc.RegisterWithdrawalRepository(withdrawalRepo)
 
 	httpSvc.Routes(e)
 

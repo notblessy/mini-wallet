@@ -36,7 +36,24 @@ func (h *HTTPService) enableWalletHandler(c echo.Context) error {
 		DisabledAt: nil,
 	}
 
-	err := h.walletRepo.Create(&data)
+	wallet, err := h.walletRepo.FindByOwner(&data.OwnedBy)
+	if err != nil {
+		logger.Error(err)
+		return c.JSON(http.StatusInternalServerError, utils.ResponseError{
+			Status:  utils.RespStatusError,
+			Message: err.Error(),
+		})
+	}
+
+	if wallet != nil && wallet.Status == model.WalletStatus_Enabled {
+		logger.Error(ErrExisted)
+		return c.JSON(http.StatusInternalServerError, utils.DefaultResponse{
+			Status: utils.RespStatusFail,
+			Data:   ErrExisted.Error(),
+		})
+	}
+
+	err = h.walletRepo.Create(&data)
 	if err != nil {
 		logger.Error(err)
 		return c.JSON(http.StatusInternalServerError, utils.ResponseError{
@@ -69,7 +86,7 @@ func (h *HTTPService) viewBalanceHandler(c echo.Context) error {
 
 	userID := "ea0212d3-abd6-406f-8c67-23d8e814a2436"
 
-	data, err := h.walletRepo.FindByID(&userID)
+	data, err := h.walletRepo.FindByOwner(&userID)
 	if err != nil {
 		logger.Error(err)
 		return c.JSON(http.StatusInternalServerError, utils.ResponseError{

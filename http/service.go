@@ -12,21 +12,18 @@ import (
 )
 
 var (
-	// ErrBadRequest :nodoc:
-	ErrBadRequest = errors.New("bad request")
-
-	// ErrIncorrectEmailOrPassword :nodoc:
-	ErrIncorrectEmailOrPassword = errors.New("incorrect email or password")
-
-	// ErrNotFound :nodoc:
-	ErrNotFound = errors.New("not found")
+	ErrExisted              = errors.New("data existed")
+	ErrNotEnoughBalance     = errors.New("not enough balance")
+	ErrDuplicateReferenceID = errors.New("duplicate reference id")
 )
 
 // HTTPService :nodoc:
 type HTTPService struct {
-	userRepo   model.UserRepository
-	walletRepo model.WalletRepository
-	db         gorm.DB
+	userRepo       model.UserRepository
+	walletRepo     model.WalletRepository
+	depositRepo    model.DepositRepository
+	withdrawalRepo model.WithdrawalRepository
+	db             gorm.DB
 }
 
 // NewHTTPService :nodoc:
@@ -44,6 +41,16 @@ func (h *HTTPService) RegisterWalletRepository(w model.WalletRepository) {
 	h.walletRepo = w
 }
 
+// RegisterDepositRepository :nodoc:
+func (h *HTTPService) RegisterDepositRepository(d model.DepositRepository) {
+	h.depositRepo = d
+}
+
+// RegisterWithdrawalRepository :nodoc:
+func (h *HTTPService) RegisterWithdrawalRepository(w model.WithdrawalRepository) {
+	h.withdrawalRepo = w
+}
+
 // Routes :nodoc:
 func (h *HTTPService) Routes(route *echo.Echo) {
 	route.POST("api/v1/init", h.initHandler)
@@ -55,4 +62,8 @@ func (h *HTTPService) Routes(route *echo.Echo) {
 
 	route.POST("api/v1/wallet", h.enableWalletHandler)
 	route.GET("api/v1/wallet", h.viewBalanceHandler)
+
+	route.POST("api/v1/deposits", h.depositHandler)
+	route.POST("api/v1/withdrawals", h.withdrawalHandler)
+
 }
