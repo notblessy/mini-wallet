@@ -13,6 +13,7 @@ import (
 	"gorm.io/gorm/logger"
 )
 
+// InitiateMysql :nodoc:
 func InitiateMysql() *gorm.DB {
 	err := config.LoadENV()
 	if err != nil {
@@ -46,6 +47,7 @@ func InitiateMysql() *gorm.DB {
 	return db
 }
 
+// CloseMysql :nodoc:
 func CloseMysql(db *gorm.DB) {
 	sql, err := db.DB()
 	if err != nil {

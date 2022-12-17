@@ -1,10 +1,7 @@
 -- migrate:up
 create table users (
-    id varchar(255) primary key not null,
-    token text,
-    created_at timestamp,
-    updated_at timestamp,
-    deleted_at timestamp
+    customer_xid varchar(255) primary key not null,
+    created_at timestamp
 );
 
 -- migrate:down

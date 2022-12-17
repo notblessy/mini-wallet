@@ -3,10 +3,14 @@ package main
 import (
 	"log"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
 	"github.com/notblessy/mini-wallet/config"
 	"github.com/notblessy/mini-wallet/db"
+	"github.com/notblessy/mini-wallet/http"
+	"github.com/notblessy/mini-wallet/repository"
+	"github.com/notblessy/mini-wallet/utils"
 )
 
 func main() {
@@ -18,6 +22,14 @@ func main() {
 		AllowOrigins: []string{"*"},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept, echo.HeaderAuthorization},
 	}))
+	e.Validator = &utils.CustomValidator{Validator: validator.New()}
+
+	userRepo := repository.NewUserRepository(initDB)
+
+	httpSvc := http.NewHTTPService()
+	httpSvc.RegisterUserRepository(userRepo)
+
+	httpSvc.Routes(e)
 
 	log.Fatal(e.Start(":" + config.HTTPPort()))
 }
