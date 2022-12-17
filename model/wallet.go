@@ -26,6 +26,7 @@ type WalletRepository interface {
 	Create(wallet *Wallet) error
 	FindByOwner(walletID *string) (*Wallet, error)
 	Save(wallet *Wallet, tx *gorm.DB) error
+	ToggleStatus(wallet *Wallet) error
 }
 
 type Wallet struct {
@@ -44,6 +45,10 @@ type WalletResponse struct {
 	Balance    int64      `json:"balance"`
 	EnabledAt  *time.Time `json:"enabled_at,omitempty"`
 	DisabledAt *time.Time `json:"disabled_at,omitempty"`
+}
+
+type WalletStatusRequest struct {
+	IsDisabled bool `json:"is_disabled"`
 }
 
 func (w *Wallet) NewResponse() *WalletResponse {

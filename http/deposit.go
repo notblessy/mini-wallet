@@ -36,9 +36,9 @@ func (h *HTTPService) depositHandler(c echo.Context) error {
 	deposit, err := h.depositRepo.FindByReference(&data.ReferenceID)
 	if deposit != nil {
 		logger.Error(ErrDuplicateReferenceID)
-		return c.JSON(http.StatusInternalServerError, utils.ResponseError{
-			Status:  utils.RespStatusFail,
-			Message: ErrDuplicateReferenceID.Error(),
+		return c.JSON(http.StatusInternalServerError, utils.DefaultResponse{
+			Status: utils.RespStatusFail,
+			Data:   ErrDuplicateReferenceID.Error(),
 		})
 	}
 

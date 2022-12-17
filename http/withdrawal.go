@@ -36,9 +36,9 @@ func (h *HTTPService) withdrawalHandler(c echo.Context) error {
 	withdrawal, err := h.withdrawalRepo.FindByReference(&data.ReferenceID)
 	if withdrawal != nil {
 		logger.Error(ErrDuplicateReferenceID)
-		return c.JSON(http.StatusInternalServerError, utils.ResponseError{
-			Status:  utils.RespStatusFail,
-			Message: ErrDuplicateReferenceID.Error(),
+		return c.JSON(http.StatusInternalServerError, utils.DefaultResponse{
+			Status: utils.RespStatusFail,
+			Data:   ErrDuplicateReferenceID.Error(),
 		})
 	}
 
@@ -59,9 +59,9 @@ func (h *HTTPService) withdrawalHandler(c echo.Context) error {
 
 	if wallet.Balance < data.Amount {
 		logger.Error(ErrNotEnoughBalance)
-		return c.JSON(http.StatusInternalServerError, utils.ResponseError{
-			Status:  utils.RespStatusFail,
-			Message: ErrNotEnoughBalance.Error(),
+		return c.JSON(http.StatusInternalServerError, utils.DefaultResponse{
+			Status: utils.RespStatusFail,
+			Data:   ErrNotEnoughBalance.Error(),
 		})
 	}
 

@@ -62,3 +62,18 @@ func (w *walletRepository) Save(wallet *model.Wallet, tx *gorm.DB) error {
 
 	return nil
 }
+
+// ToggleStatus :nodoc:
+func (w *walletRepository) ToggleStatus(wallet *model.Wallet) error {
+	logger := log.WithFields(log.Fields{
+		"wallet": utils.Encode(wallet),
+	})
+
+	err := w.db.Save(wallet).Error
+	if err != nil {
+		logger.Error(err)
+		return err
+	}
+
+	return nil
+}

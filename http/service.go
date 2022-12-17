@@ -15,6 +15,7 @@ var (
 	ErrExisted              = errors.New("data existed")
 	ErrNotEnoughBalance     = errors.New("not enough balance")
 	ErrDuplicateReferenceID = errors.New("duplicate reference id")
+	ErrAlreadyDisabled      = errors.New("already disabled")
 )
 
 // HTTPService :nodoc:
@@ -62,6 +63,7 @@ func (h *HTTPService) Routes(route *echo.Echo) {
 
 	route.POST("api/v1/wallet", h.enableWalletHandler)
 	route.GET("api/v1/wallet", h.viewBalanceHandler)
+	route.PATCH("api/v1/wallet", h.disableWalletHandler)
 
 	route.POST("api/v1/deposits", h.depositHandler)
 	route.POST("api/v1/withdrawals", h.withdrawalHandler)
