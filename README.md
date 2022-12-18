@@ -35,6 +35,10 @@ $ dbmate up
 
 - Before running, you need to create `Makefile` from the file `Makefile.sample`. Then run for debugging by `make run`.
 
+### API Documentations
+
+- To test the API, import `postman collection` from folder `api-docs/`. All the API is available there.
+
 ## Author
 
 ```
