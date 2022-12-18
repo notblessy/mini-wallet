@@ -36,7 +36,7 @@ func (w *walletRepository) Create(wallet *model.Wallet) error {
 // FindByID :nodoc:
 func (w *walletRepository) FindByOwner(id *string) (wallet *model.Wallet, err error) {
 	logger := log.WithFields(log.Fields{
-		"walletID": id,
+		"ownerID": id,
 	})
 
 	err = w.db.Where("owned_by = ?", id).First(&wallet).Error
@@ -45,7 +45,7 @@ func (w *walletRepository) FindByOwner(id *string) (wallet *model.Wallet, err er
 		return nil, err
 	}
 
-	return wallet, err
+	return wallet, nil
 }
 
 // Save :nodoc:

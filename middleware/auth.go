@@ -31,8 +31,13 @@ func JWTConfig() middleware.JWTConfig {
 }
 
 func GetSessionClaims(c echo.Context) (*JWTClaims, error) {
-	user := c.Get("user").(*jwt.Token)
-	claims := user.Claims.(*JWTClaims)
+	user := c.Get("user")
+
+	token, ok := user.(*jwt.Token)
+	if !ok {
+		return nil, errors.New("ERROR TOKEN ")
+	}
+	claims := token.Claims.(*JWTClaims)
 
 	if claims == nil {
 		logger.Error(ErrUnauthorized)

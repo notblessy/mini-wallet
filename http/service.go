@@ -55,17 +55,17 @@ func (h *HTTPService) RegisterWithdrawalRepository(w model.WithdrawalRepository)
 // Routes :nodoc:
 func (h *HTTPService) Routes(route *echo.Echo) {
 	route.POST("api/v1/init", h.initHandler)
+	route.Use(middleware.Logger())
+	route.Use(middleware.Recover())
 
 	routes := route.Group("/api/v1")
-	routes.Use(middleware.Logger())
-	routes.Use(middleware.Recover())
 	routes.Use(middleware.JWTWithConfig(mdw.JWTConfig()))
 
-	route.POST("api/v1/wallet", h.enableWalletHandler)
-	route.GET("api/v1/wallet", h.viewBalanceHandler)
-	route.PATCH("api/v1/wallet", h.disableWalletHandler)
+	routes.POST("/wallet", h.enableWalletHandler)
+	routes.GET("/wallet", h.viewBalanceHandler)
+	routes.PATCH("/wallet", h.disableWalletHandler)
 
-	route.POST("api/v1/deposits", h.depositHandler)
-	route.POST("api/v1/withdrawals", h.withdrawalHandler)
+	routes.POST("/deposits", h.depositHandler)
+	routes.POST("/withdrawals", h.withdrawalHandler)
 
 }

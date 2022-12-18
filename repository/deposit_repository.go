@@ -57,5 +57,5 @@ func (u *depositRepository) FindByReference(refID *string) (deposit *model.Depos
 		return nil, err
 	}
 
-	return deposit, err
+	return nil, nil
 }

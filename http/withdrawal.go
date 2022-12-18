@@ -6,6 +6,7 @@ import (
 
 	"github.com/google/uuid"
 	"github.com/labstack/echo/v4"
+	"github.com/notblessy/mini-wallet/middleware"
 	"github.com/notblessy/mini-wallet/model"
 	"github.com/notblessy/mini-wallet/utils"
 	log "github.com/sirupsen/logrus"
@@ -33,6 +34,14 @@ func (h *HTTPService) withdrawalHandler(c echo.Context) error {
 		"request": utils.Encode(data),
 	})
 
+	user, err := middleware.GetSessionClaims(c)
+	if err != nil {
+		return c.JSON(http.StatusUnauthorized, utils.ResponseError{
+			Status:  utils.RespStatusError,
+			Message: err.Error(),
+		})
+	}
+
 	withdrawal, err := h.withdrawalRepo.FindByReference(&data.ReferenceID)
 	if withdrawal != nil {
 		logger.Error(ErrDuplicateReferenceID)
@@ -46,7 +55,7 @@ func (h *HTTPService) withdrawalHandler(c echo.Context) error {
 	data.ID = uuid.New().String()
 	data.WithdrawnAt = &now
 	data.Status = model.WithdrawalStatus_Success
-	data.WithdrawnBy = "ea0212d3-abd6-406f-8c67-23d8e814a2436"
+	data.WithdrawnBy = user.CustomerXid
 
 	wallet, err := h.walletRepo.FindByOwner(&data.WithdrawnBy)
 	if err != nil {

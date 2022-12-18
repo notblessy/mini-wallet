@@ -9,15 +9,15 @@ import (
 type WalletStatus int32
 
 const (
-	WalletStatus_Enabled  WalletStatus = 0
-	WalletStatus_Disabled WalletStatus = 1
+	WalletStatus_Enabled  WalletStatus = 1
+	WalletStatus_Disabled WalletStatus = 2
 )
 
 // Enum value maps for WalletStatus.
 var (
 	WalletStatus_label = map[WalletStatus]string{
-		0: "enabled",
-		1: "disabled",
+		1: "enabled",
+		2: "disabled",
 	}
 )
 

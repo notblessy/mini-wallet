@@ -5,15 +5,15 @@ import "time"
 type DepositStatus int32
 
 const (
-	DepositStatus_Success DepositStatus = 0
-	DepositStatus_Pending DepositStatus = 1
+	DepositStatus_Success DepositStatus = 1
+	DepositStatus_Pending DepositStatus = 2
 )
 
 // Enum value maps for DepositStatus.
 var (
 	DepositStatus_label = map[DepositStatus]string{
-		0: "success",
-		1: "pending",
+		1: "success",
+		2: "pending",
 	}
 )
 

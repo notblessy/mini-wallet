@@ -57,5 +57,5 @@ func (w *withdrawalRepository) FindByReference(refID *string) (withdrawal *model
 		return nil, err
 	}
 
-	return withdrawal, err
+	return nil, nil
 }

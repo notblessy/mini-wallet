@@ -5,15 +5,15 @@ import "time"
 type WithdrawalStatus int32
 
 const (
-	WithdrawalStatus_Success WithdrawalStatus = 0
-	WithdrawalStatus_Pending WithdrawalStatus = 1
+	WithdrawalStatus_Success WithdrawalStatus = 1
+	WithdrawalStatus_Pending WithdrawalStatus = 2
 )
 
 // Enum value maps for WithdrawalStatus.
 var (
 	WithdrawalStatus_label = map[WithdrawalStatus]string{
-		0: "success",
-		1: "pending",
+		1: "success",
+		2: "pending",
 	}
 )
 
