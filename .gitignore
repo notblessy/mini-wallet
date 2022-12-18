@@ -1,3 +1,4 @@
 .env
 db/schema.sql
 __debug_bin
+Makefile
